@@ -1,0 +1,158 @@
+a {
+  text-decoration: none;
+  display: block;
+}
+.widget-area.leftsidebar {
+  background: #2a3042;
+  color: #fff;
+  left: 0;
+  min-height: 100%;
+  position: fixed;
+  top: 0;
+  width: 220px;
+  transition: all ease-in-out 0.5s;
+  z-index: 9;
+  padding: 10px 0;
+}
+.cl-sidebar {
+  background: #2a3042;
+  color: #fff;
+  // padding: 10px 15px;
+  .navbar-expand-lg {
+    flex-flow: column !important;
+  }
+  .navbar-nav {
+    flex-direction: column !important;
+  }
+  .navbar-light {
+    .navbar-brand {
+      color: rgb(255 255 255 / 90%);
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .navbar-nav {
+      .nav-link {
+        color: #fff;
+        .icon {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .item {
+    &:hover {
+      background: #32384a;
+    }
+  }
+}
+
+.cl-sidemenu {
+  .menu-item {
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    padding: 7px 15px;
+    &:hover {
+      background: #32384a;
+    }
+  }
+  .icon {
+    margin-right: 8px;
+  }
+  .accordion-item,
+  .accordion-button {
+    background-color: #2a3042;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    font-weight: 600;
+
+    a {
+      color: #fff;
+      // font-weight: normal;
+      // font-size: 14px;
+      padding: 5px 10px 5px 30px;
+    }
+    .accordion-button {
+      padding: 5px 15px 5px 0;
+      position: relative;
+      &:hover {
+        background: #32384a;
+      }
+      &:focus {
+        box-shadow: none;
+      }
+      &:after {
+        width: 10px;
+        height: 10px;
+        line-height: 10px;
+        text-align: center;
+        color: #fff;
+        background-image: none;
+        content: "\f107";
+        font-family: "FontAwesome";
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+  .accordion-body {
+    padding: 0;
+  }
+}
+.hide-dashboard {
+  .cl-sidemenu .accordion-item .accordion-button:after,
+  .cl-sidemenu .accordion-button .accordion-button:after {
+    display: none;
+  }
+  .leftsidebar {
+    width: 80px;
+    text-align: center;
+    transition: all ease-in-out 0.5s;
+    .cl-sidemenu .icon {
+      margin-right: 0;
+    }
+    .cl-sidebar {
+      span {
+        display: none;
+      }
+      .accordion-button {
+        display: block;
+        padding: 5px 0;
+        text-align: center;
+        .icon {
+          text-align: center;
+          margin-right: 0;
+        }
+      }
+      .accordion-item {
+        position: relative;
+        a {
+          padding: 5px 10px;
+        }
+        .accordion-collapse {
+          position: absolute;
+          left: 80px;
+          width: 100%;
+          background: #2a3042;
+          min-width: 150px;
+          top: 0;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 991px) {
+  .widget-area.leftsidebar {
+    left: -300px;
+  }
+  .wrapper-content {
+    margin-left: 20px;
+  }
+  .hide-dashboard {
+    .widget-area.leftsidebar {
+      left: 0;
+    }
+  }
+}

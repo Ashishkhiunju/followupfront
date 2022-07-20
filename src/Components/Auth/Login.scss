@@ -1,0 +1,27 @@
+.login-form {
+    box-shadow: 0 1px 5px rgb(0 0 0 / 11%);
+    background: #ffffff;
+    border: none;
+    .card-header {
+        background-color: #556ee6;
+        padding: 5px 15px;
+        .card-title {
+            color: #fff
+        }
+    }
+    .form-group{
+        display: flex;
+        align-items: center;
+        .form-control {
+            margin-left: auto;
+            width: 80%;
+        }
+    }
+    &:hover {
+        box-shadow: 0 9px 8px rgb(0 0 0 / 11%);
+        .cl-btn {
+            letter-spacing: 1px;
+        }
+
+    }
+}

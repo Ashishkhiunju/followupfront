@@ -1,0 +1,114 @@
+.cl-table {
+  background-color: #fff;
+  padding: 15px;
+  .table {
+    text-align: center;
+    thead {
+      th {
+        vertical-align: middle;
+        background: #f8f8fb;
+        border: none;
+        font-weight: normal;
+      }
+    }
+    td {
+      font-size: 14px;
+      vertical-align: middle;
+    }
+  }
+}
+.table-dropdown {
+  .dropdown-toggle {
+    background: transparent;
+    border: none;
+    .drop-icon {
+      color: #333;
+    }
+    &::after {
+      display: none;
+    }
+  }
+  .btn-success {
+    &:hover,
+    &:focus {
+      border: none;
+      box-shadow: none;
+      background: transparent;
+    }
+  }
+  .dropdown-item {
+    font-size: 14px;
+    i {
+      margin-right: 10px;
+    }
+    &:hover {
+      color: #556ee6;
+    }
+  }
+}
+.table-dropdown.show > .btn-success.dropdown-toggle:focus,
+.table-dropdown.show > .btn-success.dropdown-toggle {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.data-filter {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  .cl-btn-group {
+    margin-right: auto;
+  }
+  .right-content {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+  .cl-search {
+    width: 250px;
+    margin-right: 15px;
+    .form-control {
+      background: #f1f1f1;
+    }
+  }
+}
+.table > :not(:first-child) {
+  border-top: none;
+}
+.cl-tabs {
+  .react-tabs__tab-list {
+    border: none;
+  }
+  .react-tabs__tab {
+    border: 1px solid #f1f1f1;
+    margin-right: 10px;
+    border-radius: 20px;
+    padding: 5px 20px;
+  }
+  .react-tabs__tab--selected {
+    background: #556ee6;
+    color: #fff;
+    border-radius: 20px;
+    padding: 5px 20px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .cl-table {
+    .table {
+      text-align: center;
+      display: block;
+      overflow-y: auto;
+      width: 100%;
+      white-space: nowrap;
+    }
+  }
+  .data-filter {
+    display: block;
+    margin-bottom: 20px;
+    .filter-dropdown {
+      margin-left: auto;
+    }
+  }
+}
+@media only screen and (max-width: 767px) {
+}
