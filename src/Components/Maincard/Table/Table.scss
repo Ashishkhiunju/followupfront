@@ -1,6 +1,10 @@
 .cl-table {
   background-color: #fff;
   padding: 15px;
+  .title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
   .table {
     text-align: center;
     thead {

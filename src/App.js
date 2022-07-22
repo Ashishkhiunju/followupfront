@@ -12,9 +12,13 @@ import { LoanTypeList } from "./Components/Loan/LoanTypeList";
 import { LoanTransfer } from "./Components/Loan/LoanTransfer";
 
 import { SavingForm } from "./Components/Saving/SavingForm";
+import { SavingList } from "./Components/Saving/SavingList";
+import { SavingPreserveForm } from "./Components/Saving/SavingPreserveForm";
+import { SavingWithdrawForm } from "./Components/Saving/SavingWithdrawForm";
 
 import { CustomerForm } from "./Components/Customer/CustomerForm";
 import { CustomerList } from "./Components/Customer/CustomerList";
+import { Customers } from "./Components/Customer/Customers";
 import { CustomerLoanDetail } from "./Components/Customer/CustomerLoanDetail";
 import { CustomerLoanPaymentForm } from "./Components/Customer/CustomerLoanPaymentForm";
 import { Form } from "./Components/Form/Form";
@@ -143,11 +147,16 @@ const App = () => {
               <Route path="/loan-type-list" element={<LoanTypeList />} />
 
               <Route path="add-customer" element={<CustomerForm />}/>
-              <Route path="list-customer" element={<CustomerList />}/>
+              {/* <Route path="list-customer" element={<CustomerList />}/> */}
+              <Route path="list-customer" element={<Customers />}/>
+
               <Route path="customer-loandetail/:id" element={<CustomerLoanDetail />}/>
               <Route path="customer-loandetail-payment/:loanid" element={<CustomerLoanPaymentForm />}/>
 
               <Route path="saving/create" element={<SavingForm />}/>
+              <Route path="saving-list" element={<SavingList />}/>
+              <Route path="saving-preserve/:id" element={<SavingPreserveForm />}/>
+              <Route path="saving-withdraw/:id" element={<SavingWithdrawForm />}/>
 
             </Routes>
           </section>

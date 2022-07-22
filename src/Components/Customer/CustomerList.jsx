@@ -3,6 +3,8 @@ import { MDBDataTable } from 'mdbreact';
 import axios from 'axios';
 import { Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
+
 
 
 export const CustomerList = (props) => {
@@ -93,11 +95,16 @@ const fetchCustomer = ()=>{
 
 
   return (
+    <>
     <MDBDataTable
       striped
       bordered
+      processing
     //   medium
+    // paging={false}
       data={data}
     />
+
+    </>
   );
 }
