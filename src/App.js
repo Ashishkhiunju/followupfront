@@ -16,6 +16,11 @@ import { SavingList } from "./Components/Saving/SavingList";
 import { SavingPreserveForm } from "./Components/Saving/SavingPreserveForm";
 import { SavingWithdrawForm } from "./Components/Saving/SavingWithdrawForm";
 
+import { RecommenderForm } from "./Components/Recommender/RecommenderForm";
+import { RecommenderList } from "./Components/Recommender/RecommenderList";
+import { RecommenderEdit } from "./Components/Recommender/RecommenderEdit";
+
+
 import { CustomerForm } from "./Components/Customer/CustomerForm";
 import { CustomerList } from "./Components/Customer/CustomerList";
 import { Customers } from "./Components/Customer/Customers";
@@ -157,6 +162,10 @@ const App = () => {
               <Route path="saving-list" element={<SavingList />}/>
               <Route path="saving-preserve/:id" element={<SavingPreserveForm />}/>
               <Route path="saving-withdraw/:id" element={<SavingWithdrawForm />}/>
+
+              <Route path="recommender/create" element={<RecommenderForm />}/>
+              <Route path="recommender/list" element={<RecommenderList />}/>
+              <Route path="recommender-edit/:id" element={<RecommenderEdit />}/>
 
             </Routes>
           </section>

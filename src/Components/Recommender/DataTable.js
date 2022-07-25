@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react"
 import Paginator from "../DataTable/Paginator";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const SORT_ASC = "asc"
 const SORT_DESC = "desc"
@@ -44,25 +45,64 @@ const DataTable = ({ columns, fetchUrl }) => {
     const loaderStyle = { width: "4rem", height: "4rem" }
 
     useEffect(() => {
-        const fetchData = async () => {
-            // setLoading(true)
-            const params = {
-                search,
-                sort_field: sortColumn,
-                sort_order: sortOrder,
-                per_page: perPage,
-                page: currentPage,
-            }
-            const { data } = await axios(fetchUrl, { params })
-            setData(data.data)
-            setPagination(data.meta)
-            // setTimeout(() => {
-            //     setLoading(false)
-            // }, 100)
-        }
 
         fetchData()
-    }, [perPage, sortColumn, sortOrder, search, currentPage])
+    }, [])
+
+    const fetchData = async () => {
+        // setLoading(true)
+        const params = {
+            search,
+            sort_field: sortColumn,
+            sort_order: sortOrder,
+            per_page: perPage,
+            page: currentPage,
+        }
+        const { data } = await axios(fetchUrl, { params })
+        setData(data.data)
+        setPagination(data.meta)
+        // setTimeout(() => {
+        //     setLoading(false)
+        // }, 100)
+    }
+
+    const recommenderDelete = async(e)=>{
+        e.preventDefault();
+        var removeid = e.target.dataset.id;
+
+        const isConfirm = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            return result.isConfirmed
+          });
+
+          if(!isConfirm){
+            return;
+          }
+
+        const formdata = new FormData();
+        formdata.append('_method','DELETE');
+
+        await axios.post('api/recommender/'+removeid,formdata).then(({data})=>{
+            Swal.fire({
+                icon:'success',
+                text:data.message,
+            })
+            fetchData()
+        }).catch(({response})=>{
+            Swal.fire({
+                icon:"error",
+                text:response.data.message
+            })
+        })
+        console.log(e.target.dataset.id);
+    }
 
     return (
         <div>
@@ -130,7 +170,8 @@ const DataTable = ({ columns, fetchUrl }) => {
                                         {columns.map((column) => {
                                             if(column === 'action'){
                                                 return <td key={column}>
-                                                    <a class="fa fa-eye" title="View Loan Detail" href={"/customer-loandetail/"+d.id} ></a>
+                                                    <a class="fa fa-edit" title="Edit" href={"/recommender-edit/"+d.id} ></a>&nbsp;
+                                                    <a class="fa fa-trash" title="Delete"  onClick={recommenderDelete} data-id={d.id}></a>
                                                 </td>
                                             }else{
                                                 return <td key={column}>{d[column]}</td>

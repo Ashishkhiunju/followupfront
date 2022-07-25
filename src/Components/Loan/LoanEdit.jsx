@@ -21,6 +21,7 @@ export const LoanEdit = (props) => {
     const [loan_type,setLoanType] = useState("")
     const [loan_amount,setLoanAmount] = useState("")
     const [image, setImage] = useState()
+    const [loan_images, setLoanImage] = useState([])
     const [loan_duration, setLoanDuration] = useState()
     const [loan_purpose, setLoanPurpose] = useState()
     const [installation_type, setInstallationType] = useState("")
@@ -28,6 +29,32 @@ export const LoanEdit = (props) => {
     const [due_date, setDueDate] = useState("")
     const [issue_date, setIssueDate] = useState("")
     const[loantypes,setLoanTypes] = useState([]);
+    const[intrestrate,setIntrestRate] = useState([]);
+    const[recommender_name,setRecommenderName] = useState('');
+    const[fileArray,setFileArray] = useState([]);
+    const[fileObj,setfileObj] = useState([]);
+
+    const uploadMultipleFiles = (e)=>{
+      // console.log(e.target.files[0]);
+      e.preventDefault();
+      var newStateArray = fileArray.slice();
+      newStateArray.push(URL.createObjectURL(e.target.files[0]))//for single
+      setFileArray(newStateArray);
+      var newStateFileObj = fileObj;
+      newStateFileObj.push(e.target.files[0])
+
+      setfileObj(newStateFileObj)
+
+    }
+
+    const deleteImage = (e)=>{
+        e.preventDefault()
+        fileArray.splice(e.target.value, 1);
+        fileObj.splice(e.target.value, 1);
+        var newStateArray = fileArray.slice();
+
+        setFileArray(newStateArray);
+    }
 
     const changeHandler = (event) => {
             setImage(event.target.files[0]);
@@ -51,7 +78,7 @@ export const LoanEdit = (props) => {
     const fetchloans = async()=>{
         await axios.get(`/api/loan/${id}`).then(({data})=>{
 
-          // alert(data)
+          console.log(data);
             setName(data.loan.customer.name)
             setAddress(data.loan.customer.address)
             setPhone(data.loan.customer.phone)
@@ -67,10 +94,12 @@ export const LoanEdit = (props) => {
             setRecommendTo(data.loan.recommend_to)
             setDueDate(data.loan.due_date_nep)
             setIssueDate(data.loan.issue_date_nep)
+            setIntrestRate(data.loan.intrest_rate)
+            setRecommenderName(data.loan.recommender?.name)
+            setLoanImage(data.loan.loan_images)
 
         })
     }
-
 
     const updateLoan = async(e)=>{
         e.preventDefault();
@@ -90,6 +119,9 @@ export const LoanEdit = (props) => {
         formdata.append('recommend_to',recommend_to)
         formdata.append('issue_date',issue_date)
         formdata.append('due_date',due_date)
+        fileObj.forEach((image_file)=>{
+            formdata.append('multiple_files[]',image_file);
+        })
 
         await axios.post(`/api/loan/${id}`,formdata).then(({data})=>{
             Swal.fire({
@@ -112,6 +144,41 @@ export const LoanEdit = (props) => {
     const onChangeEndDate = ({ bsDate, adDate }) => {
 		setDueDate(bsDate);
 	};
+
+    const removeLoanImage = async(e)=>{
+        e.preventDefault();
+        const isConfirm = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            return result.isConfirmed
+          });
+
+          if(!isConfirm){
+            return;
+          }
+        var imageid = e.target.dataset.id;
+        const formdata = new FormData();
+        formdata.append('image_id',imageid);
+        await axios.post(`api/delete-loan-image`,formdata).then(({data})=>{
+           Swal.fire({
+            icon:'success',
+            text:data.message
+           })
+           fetchloans()
+        }).catch(({response})=>{
+            Swal.fire({
+                icon:'error',
+                text:response.data.message
+            })
+        })
+        console.log(e.target.dataset.id)
+    }
 
 
     return (
@@ -222,6 +289,7 @@ export const LoanEdit = (props) => {
                     <div className="row">
                       <div className="col-md-4">
                         <div className="form-group">
+                            <label>Loan Type</label>
                           <select className="form-control" name="loan_type"
 
                            value={loan_type}
@@ -239,6 +307,7 @@ export const LoanEdit = (props) => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
+                        <label>Loan Amount</label>
                           <input
                             type="text"
                             value={loan_amount}
@@ -252,6 +321,7 @@ export const LoanEdit = (props) => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
+                        <label>Loan Duration/Months</label>
                           <input
                             type="text"
                             value={loan_duration}
@@ -265,6 +335,7 @@ export const LoanEdit = (props) => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
+                        <label>Loan Purpose</label>
                           <input
                             type="text"
                             value={loan_purpose}
@@ -278,6 +349,7 @@ export const LoanEdit = (props) => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
+                        <label>Installation Type</label>
                           <select class="form-control"
 
                           value={installation_type}
@@ -288,7 +360,7 @@ export const LoanEdit = (props) => {
                            >
                             <option value="0" >--Select Installment Type--</option>
                             <option value="daily" >Daily</option>
-                            <option value="weekly" > Weekely</option>
+                            <option value="weekly" > Weekly</option>
                             <option value="monthly" >Monthly</option>
                             <option value="yearly" >Yearly</option>
                           </select>
@@ -296,6 +368,7 @@ export const LoanEdit = (props) => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
+                        <label>Recommend To</label>
                           <input
                             type="text"
                             value={recommend_to}
@@ -307,7 +380,13 @@ export const LoanEdit = (props) => {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
+                        <div className="form-group">
+                            <label htmlFor="">Intrest Rate</label>
+                            <input type="number" value={intrestrate} className="form-control"/>
+                        </div>
+                      </div>
+                      <div className="col-md-4">
                       <div className="form-group">
                         <label>Start date: {issue_date}</label>
 
@@ -323,7 +402,7 @@ export const LoanEdit = (props) => {
                         /> */}
                       </div>
                     </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="form-group">
                           <label>End date: {due_date}</label>
 
@@ -339,8 +418,28 @@ export const LoanEdit = (props) => {
                           /> */}
                         </div>
                       </div>
-                      <div className="col-md-12">
+
+                      <div className="col-md-4">
                         <div className="form-group">
+                            <label htmlFor="">Recommended By</label>
+                            <input type="text" value={recommender_name} className="form-control" readOnly/>
+                        </div>
+                      </div>
+                      <div className="row">
+                      {loan_images &&
+
+                            loan_images.map((items)=>{
+                                return(
+                                    <div className="col-md-2">
+                                    <img src={window.baseurl+"/storage/"+items.image} height="100" width="100"/><button className="fa fa-trash alert alert-danger" title="Remove" onClick={removeLoanImage} data-id={items.id}></button>
+                                    </div>
+                                )
+                            })
+                      }
+                      </div>
+                      {/* <div className="col-md-4">
+                        <div className="form-group">
+                        <label>Choose File</label>
                           <input
                             type="file"
                             name="image"
@@ -349,8 +448,24 @@ export const LoanEdit = (props) => {
                             className="form-control"
                           />
                         </div>
-                      </div>
-                      <img  height="100" src={window.baseurl+`/storage/`+image} />
+                      </div> */}
+                      {/* <img  height="100" src={window.baseurl+`/storage/`+image} /> */}
+                      <div className="form-group multi-preview">
+                        <hr/>
+                        <div class="row">
+                            {(fileArray || []).map((url,index)=> (
+                                <div class="col-md-2">
+                                    <img src={url} alt="..." height="100" width="100"/>&nbsp;<button className="fa fa-trash alert alert-danger" title="Remove" onClick={deleteImage} value={index}></button>
+                                </div>
+
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="form-group col-md-4">
+                        <label>Choose Files</label>
+                        <input type="file" className="form-control" onChange={uploadMultipleFiles} />
+                    </div>
                       <div className="btn-group text-center d-block">
                         <button className="cl-btn">Save Details</button>
                       </div>

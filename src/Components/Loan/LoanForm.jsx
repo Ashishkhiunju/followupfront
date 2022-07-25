@@ -16,6 +16,7 @@ export const LoanForm = (props) => {
 
   const[loantypes,setLoanTypes] = useState([]);
   const[customerOptions,setCustomerOptions] = useState([]);
+  const[recommenderOptions,setRecommenderOptions] = useState([]);
   const[fileArray,setFileArray] = useState([]);
   const[fileObj,setfileObj] = useState([]);
 
@@ -46,6 +47,7 @@ const deleteImage = (e)=>{
     document.title = 'Loan'
       fetchloantypes()
       fetchCustomers()
+      fetchRecommenders()
   },[])
 
   const fetchloantypes = (e)=>{
@@ -61,9 +63,15 @@ const deleteImage = (e)=>{
 
     })
   }
+  const fetchRecommenders = (e)=>{
+    axios.get('/api/recommender-list').then(({data})=>{
+        setRecommenderOptions(data);
+    })
+  }
 
   const navigate = useNavigate()
   const [customerid,setCustomerID] = useState("")
+  const [recommenderid,setRecommenderId] = useState("")
 
   const [loan_type,setLoanType] = useState("")
   const [loan_amount,setLoanAmount] = useState("")
@@ -88,6 +96,7 @@ const deleteImage = (e)=>{
 
     const formdata = new FormData()
     formdata.append('customer_id',customerid)
+    formdata.append('recommender_id',recommenderid)
     formdata.append('loan_type',loan_type)
     formdata.append('loan_amount',loan_amount)
     formdata.append('loan_duration',loan_duration)
@@ -127,7 +136,7 @@ const deleteImage = (e)=>{
   var installationOptions = [
     { value: ' ', label: '--Select Installation Type--' },
     { value: 'daily', label: 'Daily' },
-    { value: 'weekely', label: 'Weekely' },
+    { value: 'weekly', label: 'Weekely' },
     { value: 'monthly', label: 'Monthly' },
     { value: 'yearly', label: 'Yearly' },
   ];
@@ -138,6 +147,10 @@ const deleteImage = (e)=>{
 
   const changeCustomer = e =>{
     setCustomerID(e.value)
+  }
+
+  const changeRecommender = (e)=>{
+    setRecommenderId(e.value)
   }
 
   const onChangeDuration = () => {
@@ -348,6 +361,24 @@ const deleteImage = (e)=>{
                           setDueDate(event.target.value)
                         }}
                       /> */}
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                        <label>Responsible For</label>
+                        <input type="text" className="form-control" readOnly value={localStorage.getItem('auth_name')}/>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                        <label>Recommended By</label>
+                        <Select
+
+                        options={recommenderOptions}
+                        onChange={changeRecommender}
+                        >
+
+                        </Select>
                     </div>
                   </div>
                   {/* <div className="col-md-4">

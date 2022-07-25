@@ -16,8 +16,6 @@ export const UserEdit = ()=>{
     const[role_id,setRoleId]=useState('');
     const[validationError,setValidationError] = useState({})
     const [selectedFile, setSelectedFile] = useState()
-    
-   
 
     const[preview,setPreview]=useState('');
 
@@ -28,7 +26,7 @@ export const UserEdit = ()=>{
 
     const changeConfirmPassword = (e)=>{
         setConfirmPassword(e.target.value);
-      
+
     }
 
     useEffect(()=>{
@@ -47,7 +45,7 @@ export const UserEdit = ()=>{
         return () => URL.revokeObjectURL(objectUrl)
         }
 
-        
+
     }, [selectedFile])
 
     const fetchUserDetail = (e)=>{
@@ -71,7 +69,7 @@ export const UserEdit = ()=>{
         formdata.append('phone',phone)
         formdata.append('role_id',role_id)
         formdata.append('image',selectedFile != null ? selectedFile : image)
-       
+
         axios.post('/api/user/'+id,formdata).then(({data})=>{
             Swal.fire({
                 icon:'success',
@@ -103,7 +101,7 @@ export const UserEdit = ()=>{
         <form onSubmit={updateUserInfo}>
         <div className="loan-form">
             <div className="section">
-            
+
             <div className="row ">
                 <div className="col-md-4">
                 <div className="form-group">
@@ -111,7 +109,7 @@ export const UserEdit = ()=>{
                     <input
                     type="text"
                     value={name}
-                    
+
                     onChange = {(event)=>{
                         setName(event.target.value)
                     }}
@@ -129,7 +127,7 @@ export const UserEdit = ()=>{
                     <input
                     type="text"
                     value={email}
-                    
+
                     onChange = {(event)=>{
                         setEmail(event.target.value)
                     }}
@@ -147,7 +145,7 @@ export const UserEdit = ()=>{
                     <input
                     type="number"
                     value={phone}
-                    
+
                     onChange = {(event)=>{
                         setPhone(event.target.value)
                     }}
@@ -158,14 +156,14 @@ export const UserEdit = ()=>{
                     <p className="alert text-danger">{validationError.phone}</p>
                     )}
                 </div>
-                </div>  
+                </div>
                 <div className="col-md-4">
                 <div className="form-group">
                 <label>Address</label>
                     <input
                     type="text"
                     value={address}
-                    
+
                     onChange = {(event)=>{
                         setAddress(event.target.value)
                     }}
@@ -192,7 +190,7 @@ export const UserEdit = ()=>{
                     <p className="alert text-danger">{validationError.role_id}</p>
                     )}
                 </div>
-                </div> 
+                </div>
                 <div className="col-md-4">
                 <div className="form-group">
                 <label>Image</label>
@@ -204,19 +202,19 @@ export const UserEdit = ()=>{
                     className="form-control"
                     />
                 </div>
-                </div>   
+                </div>
             </div>
             </div>
             {image != null &&
             <div class="form-group">
-            
+
                 <img  height="100" src={window.baseurl+`/storage/`+image} />
             </div>
              }
 
-             
+
             <img  height="100" src={preview} />
-            
+
             <div className="btn-group text-center d-block">
                 <button className="cl-btn">Save Details</button>
                 </div>
@@ -233,7 +231,7 @@ export const UserEdit = ()=>{
                         <input
                         type="text"
                         name="password"
-                        
+
                         onChange = {(event)=>{
                             setPassword(event.target.value)
                         }}
@@ -251,7 +249,7 @@ export const UserEdit = ()=>{
                         <input
                         type="text"
                         name="confirm_password"
-                        
+
                         onChange = {changeConfirmPassword}
                         placeholder="Confirm Password"
                         className="form-control"
@@ -267,10 +265,10 @@ export const UserEdit = ()=>{
              <div className="btn-group text-center d-block">
                 <button className="cl-btn">Save Password</button>
                 </div>
-            
+
            </form>
         </div>
     </div>
-        
+
     )
 }

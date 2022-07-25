@@ -77,6 +77,18 @@ export const Sidebar = (props) => {
 
             </Accordion.Body>
           </Accordion.Item>
+          <Accordion.Item eventKey="4">
+            <Accordion.Header className="menu-item">
+              <i className="fa fa-list icon"></i>
+              <span>Recommenders</span>
+            </Accordion.Header>
+            <Accordion.Body>
+              <Link className="item" to="/recommender/create">
+                Recommenders
+              </Link>
+
+            </Accordion.Body>
+          </Accordion.Item>
         </Accordion>
       </div>
     </>
