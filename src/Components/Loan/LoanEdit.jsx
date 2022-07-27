@@ -33,6 +33,8 @@ export const LoanEdit = (props) => {
     const[recommender_name,setRecommenderName] = useState('');
     const[fileArray,setFileArray] = useState([]);
     const[fileObj,setfileObj] = useState([]);
+    const[recommenderOptions,setRecommenderOptions] = useState([]);
+    const [recommenderid,setRecommenderId] = useState("")
 
     const uploadMultipleFiles = (e)=>{
       // console.log(e.target.files[0]);
@@ -63,7 +65,8 @@ export const LoanEdit = (props) => {
     useEffect(()=>{
         document.title = 'Loan Edit'
         fetchloans();
-        fetchloantypes()
+        fetchloantypes();
+        fetchRecommenders();
 
       },[])
 
@@ -96,6 +99,7 @@ export const LoanEdit = (props) => {
             setIssueDate(data.loan.issue_date_nep)
             setIntrestRate(data.loan.intrest_rate)
             setRecommenderName(data.loan.recommender?.name)
+            setRecommenderId(data.loan.recommender_id)
             setLoanImage(data.loan.loan_images)
 
         })
@@ -119,6 +123,7 @@ export const LoanEdit = (props) => {
         formdata.append('recommend_to',recommend_to)
         formdata.append('issue_date',issue_date)
         formdata.append('due_date',due_date)
+        formdata.append('recommender_id',recommenderid)
         fileObj.forEach((image_file)=>{
             formdata.append('multiple_files[]',image_file);
         })
@@ -180,6 +185,19 @@ export const LoanEdit = (props) => {
         console.log(e.target.dataset.id)
     }
 
+    const fetchRecommenders = (e)=>{
+        axios.get('/api/recommender-list').then(({data})=>{
+            setRecommenderOptions(data);
+        })
+      }
+    const selectedRecomender = recommenderOptions.find(x => x.value===recommenderid);
+
+
+    const changeRecommender = (e)=>{
+
+    setRecommenderId(e.value)
+
+    }
 
     return (
         <>
@@ -190,7 +208,7 @@ export const LoanEdit = (props) => {
           </div> */}
           <div className="same-gap">
             <div className="loan-detail-form cl-form">
-              <h4 className="title">Edit Loan Cus</h4>
+              <h4 className="title">Edit Loan </h4>
               <form onSubmit={updateLoan}>
                 <div className="loan-form">
                   <div className="section">
@@ -422,7 +440,15 @@ export const LoanEdit = (props) => {
                       <div className="col-md-4">
                         <div className="form-group">
                             <label htmlFor="">Recommended By</label>
-                            <input type="text" value={recommender_name} className="form-control" readOnly/>
+                            {/* <input type="text" value={recommender_name} className="form-control" readOnly/>
+                             */}
+                             <Select
+
+                                value = {{ value: selectedRecomender ? selectedRecomender.value : "", label: selectedRecomender ? selectedRecomender.label : ""} || ''}
+                                // value={recommenderOptions.find(({ value }) => value === '1')}
+                                options={recommenderOptions}
+                                onChange={changeRecommender}
+                                />
                         </div>
                       </div>
                       <div className="row">

@@ -69,6 +69,7 @@ const deleteImage = (e)=>{
     })
   }
 
+
   const navigate = useNavigate()
   const [customerid,setCustomerID] = useState("")
   const [recommenderid,setRecommenderId] = useState("")
@@ -374,11 +375,12 @@ const deleteImage = (e)=>{
                         <label>Recommended By</label>
                         <Select
 
+                        // value={recommenderOptions.find(({ value }) => value === '1')}
                         options={recommenderOptions}
                         onChange={changeRecommender}
-                        >
+                        />
 
-                        </Select>
+
                     </div>
                   </div>
                   {/* <div className="col-md-4">

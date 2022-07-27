@@ -34,7 +34,9 @@ const DataTable = ({ columns, fetchUrl }) => {
             setCurrentPage(1)
             setSortOrder(SORT_ASC)
             setSortColumn(columns[0])
+
         }, 500)
+
     ).current
 
     const handlePerPage = (perPage) => {
@@ -43,11 +45,6 @@ const DataTable = ({ columns, fetchUrl }) => {
     }
 
     const loaderStyle = { width: "4rem", height: "4rem" }
-
-    useEffect(() => {
-
-        fetchData()
-    }, [])
 
     const fetchData = async () => {
         // setLoading(true)
@@ -65,6 +62,28 @@ const DataTable = ({ columns, fetchUrl }) => {
         //     setLoading(false)
         // }, 100)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // setLoading(true)
+            const params = {
+                search,
+                sort_field: sortColumn,
+                sort_order: sortOrder,
+                per_page: perPage,
+                page: currentPage,
+            }
+            const { data } = await axios(fetchUrl, { params })
+            setData(data.data)
+            setPagination(data.meta)
+            // setTimeout(() => {
+            //     setLoading(false)
+            // }, 100)
+        }
+        fetchData()
+    }, [perPage, sortColumn, sortOrder, search, currentPage])
+
+
 
     const recommenderDelete = async(e)=>{
         e.preventDefault();
