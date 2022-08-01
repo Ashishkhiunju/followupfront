@@ -46,15 +46,17 @@ import {UserEdit} from "./Components/User/UserEdit";
 
 import axios from 'axios';
 import "./App.css";
-
-axios.defaults.baseURL = "http://104.248.152.158:8000";
+// http://127.0.0.1:8000/
+// http://sub.xinzatech.com/
+axios.defaults.baseURL = "http://sub.xinzatech.com/";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
 
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.interceptors.request.use(function(config){
   const token = localStorage.getItem('auth_token');
-  config.headers.Authorization = token ? `Bearer${token}`:'';
+  config.headers.Authorization = token ? `Bearer ${token}` : '' ;
   return config;
 });
 
@@ -74,13 +76,7 @@ const App = () => {
     makeInstallationContactForToday(); //must have cornjob
     createLoanIntrestToday(); //must have cornjob
 
-    axios.get('api/authenticate').then(({data})=>{
 
-      if(data === false){
-
-        localStorage.removeItem('auth_token')
-      }
-    })
   },[])
 
   const makeInstallationContactForToday = ()=>{
@@ -95,6 +91,19 @@ const App = () => {
         // console.log(data);
     })
   }
+
+    axios.get(`api/authenticate`).then(({data})=>[
+
+    ]).catch(({response})=>{
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('auth_name');
+        localStorage.removeItem('role');
+        if(window.location.pathname != '/'){
+            window.location.href = "/";
+        }
+
+    })
+
 
   if(!localStorage.getItem('auth_token')){
  return(

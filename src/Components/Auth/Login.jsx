@@ -18,7 +18,10 @@ export const Login = (props)=>{
         formdata.append('password',password)
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('api/login',formdata).then(({data})=>{
+                // alert(data.token);
+                // return;
               if(data.status == 200){
+
                 localStorage.setItem('auth_token',data.token);
                 localStorage.setItem('auth_name',data.username);
                 localStorage.setItem('role',data.role);

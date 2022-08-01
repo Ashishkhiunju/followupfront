@@ -1,25 +1,39 @@
 import "./InfoCard.scss";
+import {useEffect,useState} from 'react';
+import axios from "axios";
 
 export const InfoCard = () => {
+
+    const[dashData,setDashData] = useState({});
+    useEffect(()=>{
+        fetchDashBoardData();
+    },[])
+
+    const fetchDashBoardData = ()=>{
+        axios.get('/api/dashboard-datas').then(({data})=>{
+            setDashData(data);
+        })
+    }
+console.log(dashData.loan_contacts_today);
   const data = [
     {
       title: "Follow up today",
-      number: 450,
+      number: dashData.loan_installation_today,
       icon: <i className="fa fa-hand-stop-o icon"></i>,
     },
     {
       title: "Contact today",
-      number: 230,
+      number: dashData.loan_contacts_today,
       icon: <i className="fa fa-phone icon"></i>,
     },
     {
       title: "Dis Contact today",
-      number: 123,
+      number: dashData.not_contacts_today,
       icon: <i className="fa fa-ban icon"></i>,
     },
     {
       title: "Saving today",
-      number: 96,
+      number: dashData.saving_today,
       icon: <i className="fa fa-money icon"></i>,
     },
     {

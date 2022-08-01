@@ -5,7 +5,7 @@ export const Home = () => {
   return (
     <>
       <InfoCard />
-      <Table hideUpdate={false} />
+      {/* <Table hideUpdate={false} /> */}
     </>
   );
 };
