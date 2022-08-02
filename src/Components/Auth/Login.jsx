@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 export const Login = (props)=>{
+
+
     const navigate = useNavigate();
     const [buttonText, setButtonText] = useState('Login');
 
@@ -19,13 +21,17 @@ export const Login = (props)=>{
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('api/login',formdata).then(({data})=>{
                 // alert(data.token);
+
                 // return;
               if(data.status == 200){
-
+                var session_time = 60*60000 //min
+                let newDate = new Date()
+                let time = newDate.getTime() + session_time;
                 localStorage.setItem('auth_token',data.token);
                 localStorage.setItem('auth_name',data.username);
                 localStorage.setItem('role',data.role);
                 localStorage.setItem('auth_image',data.image);
+                localStorage.setItem('ttl', time);
 
                 window.location.reload();
               }else{

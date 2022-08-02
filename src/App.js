@@ -75,7 +75,7 @@ const App = () => {
   useEffect(()=>{
     makeInstallationContactForToday(); //must have cornjob
     createLoanIntrestToday(); //must have cornjob
-
+    checkSessionTime();
 
   },[])
 
@@ -92,6 +92,23 @@ const App = () => {
     })
   }
 
+    const checkSessionTime = ()=>{
+
+        let newDate = new Date()
+        let time = newDate.getTime();
+        var sessionttl = localStorage.getItem('ttl');
+
+        if(sessionttl < time){
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_name');
+            localStorage.removeItem('role');
+            localStorage.removeItem('ttl');
+            if(window.location.pathname != '/'){
+                window.location.href = "/";
+            }
+        }
+
+    }
     axios.get(`api/authenticate`).then(({data})=>[
 
     ]).catch(({response})=>{

@@ -126,7 +126,7 @@ export const Form = () => {
   var installationOptions = [
     { value: ' ', label: '--Select Installation Type--' },
     { value: 'daily', label: 'Daily' },
-    { value: 'weekely', label: 'Weekely' },
+    { value: 'weekly', label: 'Weekly' },
     { value: 'monthly', label: 'Monthly' },
     { value: 'yearly', label: 'Yearly' },
   ];

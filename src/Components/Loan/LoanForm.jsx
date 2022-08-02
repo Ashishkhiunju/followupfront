@@ -13,7 +13,7 @@ import ImageUploadPreviewComponent from '../ImageUpload/ImageUploadPreviewCompon
 
 export const LoanForm = (props) => {
 
-
+  const[buttonDisabled,setButtonDisabled] = useState(false)
   const[loantypes,setLoanTypes] = useState([]);
   const[customerOptions,setCustomerOptions] = useState([]);
   const[recommenderOptions,setRecommenderOptions] = useState([]);
@@ -91,7 +91,7 @@ const deleteImage = (e)=>{
 // 		setImage(event.target.files[0]);
 // 	};
   const createloan = async (e) => {
-
+    setButtonDisabled(true)
     e.preventDefault();
 
 
@@ -120,6 +120,7 @@ const deleteImage = (e)=>{
         text:data.message
       })
       navigate('/loan-list')
+      setButtonDisabled(false)
     }).catch(({response})=>{
       if(response.status===422){
         setValidationError(response.data.errors)
@@ -130,7 +131,7 @@ const deleteImage = (e)=>{
           text:response.data.message
         })
       }
-
+      setButtonDisabled(false)
     })
   }
 
@@ -412,7 +413,7 @@ const deleteImage = (e)=>{
                 </div>
                   {/* <ImageUploadPreviewComponent /> */}
                   <div className="btn-group text-center d-block">
-                    <button className="cl-btn">Save Details</button>
+                    <button className="cl-btn" disabled={buttonDisabled}>Save Details</button>
                   </div>
                 </div>
               </div>

@@ -156,3 +156,11 @@ a {
     }
   }
 }
+
+
+
+.accordion-button:not(.collapsed) {
+    color: #ffffff;
+    background-color: #556ee6;
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
