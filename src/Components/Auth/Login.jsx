@@ -32,6 +32,7 @@ export const Login = (props)=>{
                 localStorage.setItem('role',data.role);
                 localStorage.setItem('auth_image',data.image);
                 localStorage.setItem('ttl', time);
+                localStorage.setItem('user_id', data.user_id);
 
                 window.location.reload();
               }else{

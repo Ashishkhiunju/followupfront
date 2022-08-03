@@ -1,9 +1,10 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import React,{useState} from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export const CustomerForm = ()=>{
+    const navigate = useNavigate();
  const[name,setName]=useState('');
  const[address,setAddress]=useState('');
  const[phone,setPhone]=useState('');
@@ -35,6 +36,7 @@ const[validationError,setValidationError]=useState({});
         icon:'success',
         text:data.message
     })
+    navigate('/list-customer')
    }).catch(({response})=>{
 
     if(response.status ===422){

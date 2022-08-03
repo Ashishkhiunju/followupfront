@@ -99,7 +99,7 @@ export const RecommenderEdit =()=>{
 
     <div class="row">
             <div className="btn-header-title d-flex">
-                <h4 className="title">Add Recommender</h4>
+                <h4 className="title">Edit Recommender</h4>
                 <div className="btn-group">
                     <Link to={`/recommender/list`} className='btn btn-primary'>
                         List

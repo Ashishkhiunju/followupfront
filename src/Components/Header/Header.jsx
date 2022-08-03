@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "./Header.scss";
 import { Link , useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -7,8 +7,20 @@ export const Header = (props) => {
   const navigate = useNavigate();
   const [showCluser, setShowCluser] = useState(true);
   const [showClnoti, setShowClnoti] = useState(true);
+  const[userImage, setUserImage] = useState('');
+
+  useEffect(()=>{
+    fetchAuthdata();
+
+  },[])
+  const fetchAuthdata = ()=>{
+    axios.get(`api/authenticate`).then(({data})=>{
+        setUserImage(data.image)
+    })
+  }
   const logoutSubmit = (e)=>{
     // e.preventDefault()
+
     axios.post('/api/logout').then(({data})=>{
 
 
@@ -100,7 +112,7 @@ export const Header = (props) => {
                 }}
               >
                 <div className="user-info">
-                  <img src={window.baseurl+'/storage/'+localStorage.getItem('auth_image')} alt={localStorage.getItem('auth_name')} />
+                  <img src={window.baseurl+'/storage/'+userImage} alt={localStorage.getItem('auth_name')} />
                   <div className="user-name">
                     <h6 className="title">{localStorage.getItem('auth_name')}</h6>
                     <small>{localStorage.getItem('role') === '1' ? 'Admin':"Staff"}</small>
@@ -108,13 +120,17 @@ export const Header = (props) => {
                 </div>
                 <ul className="dropdown-menu user-dropdown-menu  cl-dropdown-menu">
                   <li className="user-detail">
-                    <img src={window.baseurl+'/storage/'+localStorage.getItem('auth_image')} alt={localStorage.getItem('auth_name')} />
+                    <img src={window.baseurl+'/storage/'+userImage} alt={localStorage.getItem('auth_name')} />
                     <p>
                     {localStorage.getItem('auth_name')}
                       <small>Member since Nov. 2012</small>
                     </p>
                     <button onClick={logoutSubmit} className="btn-small">
                       Sign out
+                    </button>
+                    <button className="btn-small">
+                        <Link to={"/user-edit/"+localStorage.getItem('user_id')}>Profile</Link>
+
                     </button>
                   </li>
                 </ul>

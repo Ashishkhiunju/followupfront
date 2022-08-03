@@ -8,7 +8,7 @@ export const Sidebar = (props) => {
     <>
       <div className="cl-sidebar">
         <Accordion className="cl-sidemenu">
-          <Link className="menu-item" to="/">
+          <Link className="menu-item home" to="/">
             <i className="fa fa-home icon"></i>
             <span>Dashboard</span>
           </Link>
@@ -29,9 +29,14 @@ export const Sidebar = (props) => {
                  Loan Type
               </Link>
               { localStorage.getItem('role') == 1 &&
+                 <>
                 <Link className="item" to="/loan-transfer">
                 Loan Transfer
                  </Link>
+                 <Link className="item" to="/users-loan">
+                 Loan By User
+                  </Link>
+                  </>
               }
             </Accordion.Body>
           </Accordion.Item>

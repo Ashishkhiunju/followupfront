@@ -6,10 +6,13 @@
   display: flex;
   align-items: center;
   margin-bottom: 25px;
+  transition: all ease-in-out .4s;
+
   .info-title {
     .title {
       color: #868faa;
       font-size: 20px;
+      font-weight: normal;
     }
     span {
       font-size: 26px;
@@ -23,9 +26,25 @@
     height: 65px;
     width: 65px;
     text-align: center;
+    transition:  all ease-in-out .4s;
     .icon {
       font-size: 28px;
       color: #fff;
+      transition:  all ease-in-out .4s;
+    }
+  }
+  &:hover {
+    box-shadow: 0 8px 12px rgb(0 0 0 / 14%);
+    .info-title {
+        .title {
+            color: #556ee6;
+        }
+    }
+    .info-icon {
+        background-color: #2a3042;
+        .icon {
+            transform: rotate(60deg);
+        }
     }
   }
 }
