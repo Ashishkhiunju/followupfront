@@ -304,7 +304,7 @@ export const LoanForm = (props) => {
                       </Select>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  {/* <div className="col-md-4">
                     <div className="form-group">
                       <label>Recommend To</label>
                       <input
@@ -317,7 +317,7 @@ export const LoanForm = (props) => {
                         className="form-control"
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>Intrest Rate</label>

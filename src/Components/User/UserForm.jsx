@@ -14,15 +14,18 @@ export const UserForm = (props)=>{
     const[image,setImage]=useState('');
     const[role_id,setRoleId]=useState('');
     const[validationError,setValidationError] = useState({})
-    
+    const[previewImage,setPreviewImage] = useState();
+
 
     const changeUserImage = (e)=>{
         setImage(e.target.files[0])
+        setPreviewImage(URL.createObjectURL(e.target.files[0]));
+
     }
 
     const changeConfirmPassword = (e)=>{
         setConfirmPassword(e.target.value);
-      
+
     }
 
     const userSubmit = (e)=>{
@@ -43,12 +46,12 @@ export const UserForm = (props)=>{
                 text:data.message
             })
         }).catch(({response})=>{
-            
+
             setValidationError(response.data.errors);
         })
 
     }
-    
+
 
     return(
         <div className="same-gap">
@@ -57,7 +60,7 @@ export const UserForm = (props)=>{
           <form onSubmit={userSubmit}>
             <div className="loan-form">
               <div className="section">
-                
+
                 <div className="row ">
                   <div className="col-md-4">
                     <div className="form-group">
@@ -65,7 +68,7 @@ export const UserForm = (props)=>{
                       <input
                         type="text"
                         name="name"
-                        
+
                         onChange = {(event)=>{
                           setName(event.target.value)
                         }}
@@ -83,7 +86,7 @@ export const UserForm = (props)=>{
                       <input
                         type="text"
                         name="email"
-                        
+
                         onChange = {(event)=>{
                           setEmail(event.target.value)
                         }}
@@ -101,7 +104,7 @@ export const UserForm = (props)=>{
                       <input
                         type="number"
                         name="phone"
-                        
+
                         onChange = {(event)=>{
                           setPhone(event.target.value)
                         }}
@@ -112,14 +115,14 @@ export const UserForm = (props)=>{
                         <p className="alert text-danger">{validationError.phone}</p>
                       )}
                     </div>
-                  </div>  
+                  </div>
                   <div className="col-md-4">
                     <div className="form-group">
                     <label>Address</label>
                       <input
                         type="text"
                         name="address"
-                        
+
                         onChange = {(event)=>{
                           setAddress(event.target.value)
                         }}
@@ -146,7 +149,7 @@ export const UserForm = (props)=>{
                         <p className="alert text-danger">{validationError.role_id}</p>
                       )}
                     </div>
-                  </div> 
+                  </div>
                   <div className="col-md-4">
                     <div className="form-group">
                     <label>Image</label>
@@ -158,7 +161,10 @@ export const UserForm = (props)=>{
                         className="form-control"
                       />
                     </div>
-                  </div>   
+                  </div>
+                  {previewImage &&
+                    <img height="100" style={{width: '100px'}} src={previewImage}/>
+                  }
                 </div>
                </div>
                <div className="section">
@@ -170,7 +176,7 @@ export const UserForm = (props)=>{
                       <input
                         type="text"
                         name="password"
-                        
+
                         onChange = {(event)=>{
                           setPassword(event.target.value)
                         }}
@@ -188,7 +194,7 @@ export const UserForm = (props)=>{
                       <input
                         type="text"
                         name="confirm_password"
-                        
+
                         onChange = {changeConfirmPassword}
                         placeholder="Confirm Password"
                         className="form-control"
@@ -200,7 +206,7 @@ export const UserForm = (props)=>{
                   </div>
                 </div>
                </div>
-               
+
                <div className="btn-group text-center d-block">
                     <button className="cl-btn">Save Details</button>
                   </div>

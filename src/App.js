@@ -24,6 +24,7 @@ import { RecommenderEdit } from "./Components/Recommender/RecommenderEdit";
 
 import { CustomerForm } from "./Components/Customer/CustomerForm";
 import { CustomerList } from "./Components/Customer/CustomerList";
+import { CustomerEdit } from "./Components/Customer/CustomerEdit";
 import { Customers } from "./Components/Customer/Customers";
 import { CustomerLoanDetail } from "./Components/Customer/CustomerLoanDetail";
 import { CustomerLoanPaymentForm } from "./Components/Customer/CustomerLoanPaymentForm";
@@ -71,14 +72,19 @@ const App = () => {
   };
 
   useEffect(() => {
-    makeInstallationContactForToday(); //must have cornjob
+    // makeInstallationContactForToday(); //must have cornjob
     createLoanIntrestToday(); //must have cornjob
     checkSessionTime();
+    runsedular();
   }, []);
 
-  const makeInstallationContactForToday = () => {
-    axios.get("api/installationContactForToday").then(({ data }) => {});
-  };
+  // const makeInstallationContactForToday = () => {
+  //   axios.get("api/installationContactForToday").then(({ data }) => {});
+  // };
+
+  const runsedular=()=>{
+    axios.get("api/runsedular").then(({ data }) => {});
+  }
 
   const createLoanIntrestToday = () => {
     axios.post("api/loanintrest").then(({ data }) => {
@@ -171,6 +177,7 @@ const App = () => {
                   path="customer-loandetail/:id"
                   element={<CustomerLoanDetail />}
                 />
+                <Route path="customer-edit/:id" element={<CustomerEdit />}/>
                 <Route
                   path="customer-loandetail-payment/:loanid"
                   element={<CustomerLoanPaymentForm />}

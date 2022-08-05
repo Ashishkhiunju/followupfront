@@ -384,7 +384,7 @@ export const LoanEdit = (props) => {
                           </select>
                         </div>
                       </div>
-                      <div className="col-md-4">
+                      {/* <div className="col-md-4">
                         <div className="form-group">
                         <label>Recommend To</label>
                           <input
@@ -397,11 +397,11 @@ export const LoanEdit = (props) => {
                             className="form-control"
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-md-4">
                         <div className="form-group">
                             <label htmlFor="">Intrest Rate</label>
-                            <input type="number" value={intrestrate} className="form-control"/>
+                            <input type="number" value={intrestrate} onChange={(e)=>setIntrestRate(e.target.value)} className="form-control"/>
                         </div>
                       </div>
                       <div className="col-md-4">
