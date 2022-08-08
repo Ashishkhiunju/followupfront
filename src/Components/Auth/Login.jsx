@@ -24,7 +24,7 @@ export const Login = (props)=>{
 
                 // return;
               if(data.status == 200){
-                var session_time = 60*60000 //min
+                var session_time = 540*60000 //min
                 let newDate = new Date()
                 let time = newDate.getTime() + session_time;
                 localStorage.setItem('auth_token',data.token);

@@ -1,8 +1,17 @@
 import "./Sidebar.scss";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
+import $ from 'jquery';
 
 export const Sidebar = (props) => {
+    $(document).ready(function(){
+        $('.accordion-body .item').click(function(){
+            // $('.item').removeClass('active');
+            $('.item').not(this).removeClass('active');
+            $(this).addClass('active');
+        })
+    })
+
 
   return (
     <>
@@ -42,6 +51,18 @@ export const Sidebar = (props) => {
           </Accordion.Item>
           <Accordion.Item eventKey="1">
             <Accordion.Header className="menu-item">
+              <i className="fa fa-clock-o icon"></i>
+              <span>Reminder</span>
+            </Accordion.Header>
+            <Accordion.Body>
+              <Link className="item" to="/sent-reminders">
+                Sent Reminders
+              </Link>
+
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header className="menu-item">
               <i className="fa fa-user-o icon"></i>
               <span>Customer</span>
             </Accordion.Header>
@@ -71,7 +92,7 @@ export const Sidebar = (props) => {
             </Accordion.Body>
           </Accordion.Item>
           }
-          <Accordion.Item eventKey="2">
+          <Accordion.Item eventKey="4">
             <Accordion.Header className="menu-item">
               <i className="fa fa-floppy-o icon"></i>
               <span>Savings</span>
@@ -83,7 +104,7 @@ export const Sidebar = (props) => {
 
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="4">
+          <Accordion.Item eventKey="5">
             <Accordion.Header className="menu-item">
               <i className="fa fa-list icon"></i>
               <span>Recommenders</span>

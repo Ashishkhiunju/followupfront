@@ -76,6 +76,11 @@ a {
       font-size: 12px;
       padding: 5px 10px 5px 30px;
       transition: all ease-in-out .4s;
+      &.item{
+        &.active {
+            background-color: #32384a;
+        }
+      }
       &:hover {
         padding-left: 35px;
       }

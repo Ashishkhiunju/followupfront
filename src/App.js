@@ -46,11 +46,13 @@ import { UserForm } from "./Components/User/UserForm";
 import { UserList } from "./Components/User/UserList";
 import { UserEdit } from "./Components/User/UserEdit";
 
+import { SentReminder } from "./Components/Reminder/SentReminder";
+
 import axios from "axios";
 import "./App.css";
 // http://127.0.0.1:8000/
 // http://sub.xinzatech.com/
-axios.defaults.baseURL = "http://sub.xinzatech.com/";
+axios.defaults.baseURL = "http://127.0.0.1:8000";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
 
@@ -203,6 +205,7 @@ const App = () => {
                   path="recommender-edit/:id"
                   element={<RecommenderEdit />}
                 />
+                <Route path="sent-reminders" element={<SentReminder/>}/>
               </Routes>
             </section>
           </div>

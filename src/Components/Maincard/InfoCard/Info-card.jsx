@@ -14,7 +14,7 @@ export const InfoCard = () => {
             setDashData(data);
         })
     }
-console.log(dashData.loan_contacts_today);
+
   const data = [
     {
       title: "Follow up today",
