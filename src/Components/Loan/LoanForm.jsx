@@ -16,6 +16,7 @@ export const LoanForm = (props) => {
   const [loantypes, setLoanTypes] = useState([]);
   const [customerOptions, setCustomerOptions] = useState([]);
   const [recommenderOptions, setRecommenderOptions] = useState([]);
+  const [pmt, setPmt] = useState(0);
   const [fileArray, setFileArray] = useState([]);
   const [fileObj, setfileObj] = useState([]);
 
@@ -102,6 +103,7 @@ export const LoanForm = (props) => {
     formdata.append("issue_date", issue_date);
     formdata.append("citizen_ship_no", citizen_ship_no);
     formdata.append("intrest_rate", intrest_rate);
+    formdata.append("emi", pmt);
     fileObj.forEach((image_file) => {
       formdata.append("multiple_files[]", image_file);
     });
@@ -174,6 +176,14 @@ export const LoanForm = (props) => {
   const onChangeEndDate = ({ bsDate, adDate }) => {
     setDueDate(bsDate);
   };
+
+  const changeHandleintrestRate = (e)=>{
+    setIntrestRate(e.target.value);
+
+    axios.get('/api/pmt',{params:{intrest_rate:e.target.value,month:loan_duration,principle:loan_amount}}).then(({data})=>{
+        setPmt(data);
+    })
+  }
 
   return (
     <>
@@ -324,9 +334,7 @@ export const LoanForm = (props) => {
                       <input
                         type="number"
                         name="intrest_rate"
-                        onChange={(e) => {
-                          setIntrestRate(e.target.value);
-                        }}
+                        onChange={ changeHandleintrestRate}
                         placeholder="Intrest Rate"
                         className="form-control"
                         step=".01"
@@ -390,6 +398,12 @@ export const LoanForm = (props) => {
                         options={recommenderOptions}
                         onChange={changeRecommender}
                       />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>EMI</label>
+                      <input type="text" readOnly className="form-control" value={pmt}></input>
                     </div>
                   </div>
                   {/* <div className="col-md-4">

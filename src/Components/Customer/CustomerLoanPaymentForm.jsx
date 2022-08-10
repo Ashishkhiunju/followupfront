@@ -16,6 +16,7 @@ export const CustomerLoanPaymentForm = (props)=>{
     const [total_paid,setTotalPaid] = useState('')
     const [total_remain,setTotalRemain] = useState('')
     const [loan_payment_details,setLoanPaymentDetails]=useState([])
+    const [emi,setEmi]=useState()
 
 
     useEffect(()=>{
@@ -38,6 +39,8 @@ export const CustomerLoanPaymentForm = (props)=>{
             // setTotalRemain(data.loan_amount - total_paid )
             setTotalPaid(data.paid_amount)
             setTotalRemain(data.remaining_amount)
+            setEmi(data.emi)
+            setPaidAmount(data.emi);
 
         })
 
@@ -101,11 +104,24 @@ export const CustomerLoanPaymentForm = (props)=>{
                   </div>
                   <div className="col-md-4">
                     <div className="form-group">
-                    <label>Loan Amount</label>
+                    <label> Loan Amount</label>
                       <input
                         type="text"
                         name="loan_amount"
                         value={loanDetail.loan_amount}
+                        placeholder="Loan Amount"
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                    <label>Total Loan Amount including Intrest</label>
+                      <input
+                        type="text"
+                        name="loan_amount"
+                        value={loanDetail.total_loan_amount}
                         placeholder="Loan Amount"
                         className="form-control"
                         readOnly
@@ -157,7 +173,7 @@ export const CustomerLoanPaymentForm = (props)=>{
                       <input
                         type="number"
                         name="paid_amount"
-                        value={paid_amount}
+                        value={emi}
                         onChange={(event)=>{
                             setPaidAmount(event.target.value)
                         }}
@@ -171,7 +187,12 @@ export const CustomerLoanPaymentForm = (props)=>{
                 </div>
 
                 <div className="btn-group text-center d-block">
-                    <button className="cl-btn">Save Details</button>
+                    {total_remain <= 0 ? (
+                        <button className="cl-btn" disabled>No Remaining</button>
+                    ):(
+                        <button className="cl-btn" >Make Payment</button>
+                    )}
+
                 </div>
                 {loan_payment_details?.map((item, index) => {
                     Moment.locale('en');

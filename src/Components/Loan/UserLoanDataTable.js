@@ -134,13 +134,13 @@ console.log(data)
                                                 return <td key={column}>
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <Link to={`/saving-detail/${d.id}`} className='fa fa-eye' title="View Saving Detail"></Link>
+                                                            <Link to={`/loan/detail/${d.id}`} className='fa fa-eye' title="View Saving Detail"></Link>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <Link to={`/saving-preserve/${d.id}`} className='fa fa-save' title="Preserve"></Link>
+                                                            <Link to={`/loan/edit/${d.id}`} className='fa fa-edit' title="Edit"></Link>
                                                             </div>
                                                         <div class="col-md-2">
-                                                            <Link to={`/saving-withdraw/${d.id}`} className='fa fa-money' title="Withdraw"></Link>
+                                                            <Link to={`/customer-loandetail-payment/${d.id}`} className='fa fa-money' title="Pay"></Link>
                                                         </div>
                                                     </div>
                                                 </td>

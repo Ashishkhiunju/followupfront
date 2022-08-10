@@ -74,15 +74,19 @@ const App = () => {
   };
 
   useEffect(() => {
-    // makeInstallationContactForToday(); //must have cornjob
+    makeInstallationContactForToday(); //must have cornjob
     createLoanIntrestToday(); //must have cornjob
     checkSessionTime();
-    runsedular();
+    sendMail();
+    // runsedular();
   }, []);
 
-  // const makeInstallationContactForToday = () => {
-  //   axios.get("api/installationContactForToday").then(({ data }) => {});
-  // };
+  const makeInstallationContactForToday = () => {
+    axios.get("api/installationContactForToday").then(({ data }) => {});
+  };
+  const sendMail = () => {
+    axios.get("api/sendMail").then(({ data }) => {});
+  };
 
   const runsedular=()=>{
     axios.get("api/runsedular").then(({ data }) => {});

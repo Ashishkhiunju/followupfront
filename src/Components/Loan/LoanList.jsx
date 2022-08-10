@@ -270,6 +270,18 @@ export const LoanList = (props) => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
+                    {activeTab === "/api/loan" &&
+                        <Dropdown.Item>
+                        <span
+                          onClick={(e) => {
+                            handleFilter("week");
+                          }}
+                        >
+                          Week
+                        </span>
+                      </Dropdown.Item>
+                    }
+
                     <Dropdown.Item>
                       <span
                         onClick={(e) => {
@@ -340,7 +352,7 @@ export const LoanList = (props) => {
                             ? Moment(pay_date).format("D MMM Y")
                             : "Not Paid yet"}
                         </td>
-                        <td>{item.loan_amount - total_paid}</td>
+                        <td>{item.total_loan_amount - total_paid}</td>
                         <td>{item.loan_amount}</td>
                         <td>{item.customer.phone}</td>
                         <td>
