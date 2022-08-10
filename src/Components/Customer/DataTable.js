@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Paginator from "../DataTable/Paginator";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ReactWhatsapp from 'react-whatsapp';
 
 const SORT_ASC = "asc";
 const SORT_DESC = "desc";
@@ -137,6 +138,12 @@ const DataTable = ({ columns, fetchUrl }) => {
                 return (
                   <tr key={index}>
                     {columns.map((column) => {
+                      if (column === "whatsapp") {
+                        return(
+                            <td><ReactWhatsapp number={d.phone} style={{border:'none'}}><i class="fa fa-whatsapp" style={{color:'green'}}/></ReactWhatsapp></td>
+                        )
+
+                      }
                       if (column === "action") {
                         return (
                           <td key={column}>

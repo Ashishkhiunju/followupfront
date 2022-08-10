@@ -8,7 +8,7 @@ export const Customers = ()=>{
             <div className="card-body">
                 <DataTable
                     fetchUrl="/api/allcustomers"
-                    columns={["name", "address", "email", "citizen_ship_no","company_name","phone","action"]}
+                    columns={["name", "address", "email", "citizen_ship_no","company_name","phone","whatsapp","action"]}
                 ></DataTable>
             </div>
         </div>
