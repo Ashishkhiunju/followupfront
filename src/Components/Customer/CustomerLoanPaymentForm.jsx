@@ -17,6 +17,7 @@ export const CustomerLoanPaymentForm = (props)=>{
     const [total_remain,setTotalRemain] = useState('')
     const [loan_payment_details,setLoanPaymentDetails]=useState([])
     const [emi,setEmi]=useState()
+    const [loanbased,setLoanBased]=useState('')
 
 
     useEffect(()=>{
@@ -29,6 +30,7 @@ export const CustomerLoanPaymentForm = (props)=>{
             setCustomerName(data.customer.name)
             setLoanDetail(data)
             setLoanPaymentDetails(data.loan_details)
+            setLoanBased(data.loan_type.based);
             // var array = data.loan_details
             // var total_paid = 0;
             // for(var i in array){
@@ -41,6 +43,16 @@ export const CustomerLoanPaymentForm = (props)=>{
             setTotalRemain(data.remaining_amount)
             setEmi(data.emi)
             setPaidAmount(data.emi);
+            if(data.remaining_amount <= 1){
+                setTotalRemain(0)
+                setEmi(0)
+            }
+            if(data.remaining_amount < data.emi){
+                setEmi(data.remaining_amount)
+                setPaidAmount(data.remaining_amount);
+            }
+
+
 
         })
 
@@ -65,6 +77,8 @@ export const CustomerLoanPaymentForm = (props)=>{
         const formdata = new FormData();
         formdata.append('loan_id',loanDetail.id)
         formdata.append('paid_amount',paid_amount)
+        formdata.append('loanbased',loanbased)
+
         axios.get('/sanctum/csrf-cookie').then(response => {
            axios.post('/api/saveloandetail',formdata).then(({data})=>{
             Swal.fire({
@@ -143,6 +157,28 @@ export const CustomerLoanPaymentForm = (props)=>{
                   </div>
                   <div className="col-md-4">
                     <div className="form-group">
+                    <label>Installation Type</label>
+                      <input
+                        type="text"
+                        value={loanDetail.installation_type}
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                    <label>Next Installation Date</label>
+                      <input
+                        type="text"
+                        value={loanDetail.loan_installation_date.next_installation_nep_date}
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
                     <label>Total Paid</label>
                       <input
                         type="text"
@@ -172,10 +208,11 @@ export const CustomerLoanPaymentForm = (props)=>{
                     <label>Amount To Pay</label>
                       <input
                         type="number"
-                        name="paid_amount"
+
                         value={emi}
                         onChange={(event)=>{
                             setPaidAmount(event.target.value)
+                            setEmi(event.target.value)
                         }}
                         placeholder="Loan Purpose"
                         className="form-control"
@@ -187,7 +224,7 @@ export const CustomerLoanPaymentForm = (props)=>{
                 </div>
 
                 <div className="btn-group text-center d-block">
-                    {total_remain <= 0 ? (
+                    {loanDetail.remaining_amount <= 1 ? (
                         <button className="cl-btn" disabled>No Remaining</button>
                     ):(
                         <button className="cl-btn" >Make Payment</button>

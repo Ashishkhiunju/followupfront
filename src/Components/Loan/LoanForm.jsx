@@ -80,7 +80,9 @@ export const LoanForm = (props) => {
   const [issue_date, setIssueDate] = useState("");
   const [citizen_ship_no, setCitizenShipNo] = useState("");
   const [validationError, setValidationError] = useState({});
-  const [intrest_rate, setIntrestRate] = useState("");
+  const [intrest_rate, setIntrestRate] = useState(0);
+  const [loan_based, setLoanBased] = useState('');
+  const [status, setStatus] = useState('1');
 
   //   const changeHandler = (event) => {
   // 		setImage(event.target.files[0]);
@@ -103,7 +105,9 @@ export const LoanForm = (props) => {
     formdata.append("issue_date", issue_date);
     formdata.append("citizen_ship_no", citizen_ship_no);
     formdata.append("intrest_rate", intrest_rate);
+    formdata.append("status", status);
     formdata.append("emi", pmt);
+    formdata.append('loan_based',loan_based);
     fileObj.forEach((image_file) => {
       formdata.append("multiple_files[]", image_file);
     });
@@ -177,13 +181,22 @@ export const LoanForm = (props) => {
     setDueDate(bsDate);
   };
 
-  const changeHandleintrestRate = (e)=>{
-    setIntrestRate(e.target.value);
-
-    axios.get('/api/pmt',{params:{intrest_rate:e.target.value,month:loan_duration,principle:loan_amount}}).then(({data})=>{
-        setPmt(data);
-    })
-  }
+  useEffect(() => {
+    if (intrest_rate && loan_amount && loan_duration && installation_type) {
+      axios
+        .get("/api/pmt", {
+          params: {
+            intrest_rate: intrest_rate,
+            month: loan_duration,
+            principle: loan_amount,
+            installation_type: installation_type,
+          },
+        })
+        .then(({ data }) => {
+          setPmt(data);
+        });
+    }
+  }, [intrest_rate, loan_duration, loan_amount, installation_type]);
 
   return (
     <>
@@ -229,12 +242,25 @@ export const LoanForm = (props) => {
                         defaultValue={{ value: loan_type }}
                         onChange={(event) => {
                           setLoanType(event.target.value);
+                          var index = event.target.selectedIndex;
+                          var optionElement = event.target.childNodes[index];
+                          var option =
+                            optionElement.getAttribute("intrestrate");
+                          setIntrestRate(option);
+                          var loanbased = optionElement.getAttribute("loanBased");
+                          setLoanBased(loanbased)
                         }}
                       >
                         <option value="0">--Select Loan Type--</option>
                         {loantypes?.map((items) => {
                           return (
-                            <option value={items.id}>{items.type} </option>
+                            <option
+                              value={items.id}
+                              intrestrate={items.intrest_rate}
+                              loanBased = {items.based}
+                            >
+                              {items.type}-{items.based}
+                            </option>
                           );
                         })}
                       </select>
@@ -334,10 +360,11 @@ export const LoanForm = (props) => {
                       <input
                         type="number"
                         name="intrest_rate"
-                        onChange={ changeHandleintrestRate}
+                        value={intrest_rate}
                         placeholder="Intrest Rate"
                         className="form-control"
                         step=".01"
+                        readOnly
                       />
                     </div>
                   </div>
@@ -400,12 +427,35 @@ export const LoanForm = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label>EMI</label>
-                      <input type="text" readOnly className="form-control" value={pmt}></input>
-                    </div>
-                  </div>
+                  {loan_based === "emi" &&
+                     <div className="col-md-4">
+                     <div className="form-group">
+                       <label>EMI</label>
+                       <input
+                         type="text"
+                         readOnly
+                         className="form-control"
+                         value={pmt}
+                       ></input>
+                     </div>
+                   </div>
+
+                  }
+                   <div className="col-md-4">
+                     <div className="form-group">
+                       <label>Status</label>
+                       <select
+                         className="form-control"
+                         onChange={(e)=>{
+                            setStatus(e.target.value)
+                         }}
+                       >
+                        <option value="1">Active</option>
+                        <option value="0">Passive</option>
+                       </select>
+                     </div>
+                   </div>
+
                   {/* <div className="col-md-4">
                     <div className="form-group">
                     <label>Choose File</label>

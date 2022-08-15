@@ -270,8 +270,8 @@ export const LoanList = (props) => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    {activeTab === "/api/loan" &&
-                        <Dropdown.Item>
+                    {activeTab === "/api/loan" && (
+                      <Dropdown.Item>
                         <span
                           onClick={(e) => {
                             handleFilter("week");
@@ -280,7 +280,7 @@ export const LoanList = (props) => {
                           Week
                         </span>
                       </Dropdown.Item>
-                    }
+                    )}
 
                     <Dropdown.Item>
                       <span
@@ -322,6 +322,7 @@ export const LoanList = (props) => {
                   <th>Not Paid Date</th>
                   <th>Previous Information</th> */}
                     <th>Image</th>
+                    <th>Status</th>
                     {!props.hideUpdate && <th>Action</th>}
                   </tr>
                 </thead>
@@ -352,7 +353,7 @@ export const LoanList = (props) => {
                             ? Moment(pay_date).format("D MMM Y")
                             : "Not Paid yet"}
                         </td>
-                        <td>{item.total_loan_amount - total_paid}</td>
+                        <td>{item.remaining_amount}</td>
                         <td>{item.loan_amount}</td>
                         <td>{item.customer.phone}</td>
                         <td>
@@ -365,6 +366,17 @@ export const LoanList = (props) => {
                               }
                             />
                           </Zoom>
+                        </td>
+                        <td>
+                          {item.status === 1 ? (
+                            <span style={{color:'green' }}>
+                              Active
+                            </span>
+                          ) : (
+                            <span style={{color:'red' }}>
+                              Passive
+                            </span>
+                          )}
                         </td>
                         {/* <td>{item.totalDue}</td>
                       <td>{item.noPaidDate}</td>
